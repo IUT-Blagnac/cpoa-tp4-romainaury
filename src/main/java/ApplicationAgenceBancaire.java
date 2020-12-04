@@ -1,160 +1,275 @@
-
-
 import java.util.Locale;
 import java.util.Scanner;
 
 import application.AccesAgenceBancaire;
 import banque.AgenceBancaire;
 import banque.Compte;
+import banque.exception.ABCompteDejaExistantException;
+import banque.exception.ABCompteInexistantException;
+import banque.exception.ABCompteNullException;
 import banque.exception.CompteException;
 
 public class ApplicationAgenceBancaire {
-	
+
+	static String[] menuGeneral = { "Liste des comptes de l'agence", "Voir un compte (par son numÃ©ro)",
+			"Menu opÃ©rations sur comptes", "Menu gestion des comptes" };
+	static String[] menuOperations = { "DÃ©poser de l'argent sur un compte", "Retirer de l'argent sur un compte", };
+	static String[] menuGestion = { "Ajouter un compte", "Supprimer un compte" };
+
 	/**
 	 * Affichage du menu de l'application
-	 * @param ag	AgenceBancaire pour récupérer le nom et la localisation
+	 * 
+	 * @param ag AgenceBancaire pour rï¿½cupï¿½rer le nom et la localisation
 	 */
-	public static void afficherMenu(AgenceBancaire ag) {
-		System.out.println("Menu de " + ag.getNomAgence() + " (" + ag.getLocAgence() + ")");
-		System.out.println("l - Liste des comptes de l'agence");
-		System.out.println("v - Voir un compte (par son numéro)");
-		System.out.println("p - voir les comptes d'un Propriétaire (par son nom)");
-		System.out.println("d - Déposer de l'argent sur un compte");
-		System.out.println("r - Retirer de l'argent sur un compte");
-		System.out.println("q - Quitter");
-		System.out.print("Choix -> ");
-	}
-	
-	/**
-	 * Temporisation : Affiche un message et attend la frappe de n'importe quel caractère.
-	 */
-	public static void tempo () {
-		Scanner lect ;
-		
-		lect = new Scanner (System.in );
-		
-		System.out.print("Tapper un car + return pour continuer ... ");
-		lect.next(); // Inutile à stocker mais ... 
+	public static void afficherMenu(AgenceBancaire ag, int typeMenu) {
+		switch (typeMenu) {
+			case 0:
+				System.out.println(
+						"--\n  Agence " + ag.getNomAgence() + " de " + ag.getLocAgence() + "\n  Menu GÃ©nÃ©ral\n--\n");
+				for (int i = 0; i < menuGeneral.length; i++) {
+					System.out.println("\t" + (i + 1) + " - " + menuGeneral[i]);
+				}
+				System.out.println("\n0 - Pour quitter ce menu");
+				System.out.print("Votre choix ?\n");
+
+				break;
+			case 1:
+				System.out.println("--\n  Agence " + ag.getNomAgence() + " de " + ag.getLocAgence()
+						+ "\n  Menu opÃ©rations sur comptes\n--\n");
+				for (int i = 0; i < menuOperations.length; i++) {
+					System.out.println("\t" + (i + 1) + " - " + menuOperations[i]);
+				}
+				System.out.println("\n0 - Pour quitter ce menu");
+				System.out.print("Votre choix ?\n");
+				break;
+			case 2:
+				System.out.println("--\n  Agence " + ag.getNomAgence() + " de " + ag.getLocAgence()
+						+ "\n  Menu gestion des comptes\n--\n");
+				for (int i = 0; i < menuGestion.length; i++) {
+					System.out.println("\t" + (i + 1) + " - " + menuGestion[i]);
+				}
+				System.out.println("\n0 - Pour quitter ce menu");
+				System.out.print("Votre choix ?\n");
+				break;
+		}
 	}
 
-	public static void main(String argv[]) {
-		
+	public static void menuGestion(AgenceBancaire monAg) {
 		String choix;
-
-		boolean continuer ;
+		boolean continuer;
 		Scanner lect;
-		AgenceBancaire monAg ;
-		
-		String nom, numero;		
-		Compte c;
-		double montant;
-		
-		lect = new Scanner ( System.in );
+
+		String numero;
+
+		lect = new Scanner(System.in);
 		lect.useLocale(Locale.US);
-		
+
 		monAg = AccesAgenceBancaire.getAgenceBancaire();
-		
+
 		continuer = true;
 		while (continuer) {
-			ApplicationAgenceBancaire.afficherMenu(monAg);
+			ApplicationAgenceBancaire.afficherMenu(monAg, 2);
 			choix = lect.next();
 			choix = choix.toLowerCase();
 			switch (choix) {
-				case "q" :
-					System.out.println("ByeBye");
-					ApplicationAgenceBancaire.tempo();
+				case "0":
+					System.out.println("Fin de Menu de gestion des comptes\n");
+
 					continuer = false;
 					break;
-				case "l" :
-					monAg.afficher();
-					ApplicationAgenceBancaire.tempo();
-					break;	
-				case "v" :
+
+				case "1":
+					String proprietaire;
+
 					System.out.print("Num compte -> ");
 					numero = lect.next();
-					c = monAg.getCompte(numero);
-					if (c==null) {
+
+					System.out.print("Nom propriÃ©taire -> ");
+					proprietaire = lect.next();
+					try {
+						monAg.addCompte(new Compte(numero, proprietaire));
+					} catch (ABCompteNullException e) {
+						e.printStackTrace();
+					} catch (ABCompteDejaExistantException e) {
+						e.printStackTrace();
+					}
+					break;
+
+				case "2":
+					System.out.print("Num compte -> ");
+					numero = lect.next();
+					try {
+						monAg.removeCompte(numero);
+					} catch (ABCompteInexistantException e) {
+						e.printStackTrace();
+					}
+					break;
+				default:
+					System.out.println("Erreur de saisie ...");
+					break;
+			}
+		}
+	}
+
+	public static void menuOperations(AgenceBancaire monAg) {
+		String choix;
+		boolean continuer;
+		Scanner lect;
+
+		String numero;
+		double montant;
+
+		lect = new Scanner(System.in);
+		lect.useLocale(Locale.US);
+
+		monAg = AccesAgenceBancaire.getAgenceBancaire();
+
+		continuer = true;
+		while (continuer) {
+			ApplicationAgenceBancaire.afficherMenu(monAg, 1);
+			choix = lect.next();
+			choix = choix.toLowerCase();
+			switch (choix) {
+				case "0":
+					continuer = false;
+					System.out.println("Fin de Menu des opÃ©rations sur comptes\n");
+					break;
+				case "1":
+					System.out.print("Num compte -> ");
+					numero = lect.next();
+					System.out.print("Montant Ã  dÃ©poser -> ");
+					montant = lect.nextDouble();
+					ApplicationAgenceBancaire.deposerSurUnCompte(monAg, numero, montant);
+					break;
+				case "2":
+					System.out.print("Num compte -> ");
+					numero = lect.next();
+					System.out.print("Montant Ã  retirer -> ");
+					montant = lect.nextDouble();
+					ApplicationAgenceBancaire.retirerSurUnCompte(monAg, numero, montant);
+					break;
+
+				default:
+					System.out.println("Erreur de saisie ...");
+					break;
+			}
+		}
+	}
+
+	public static void menuGeneral(AgenceBancaire monAg) {
+		String choix;
+		boolean continuer;
+		Scanner lect;
+
+		lect = new Scanner(System.in);
+		lect.useLocale(Locale.US);
+
+		monAg = AccesAgenceBancaire.getAgenceBancaire();
+
+		continuer = true;
+		while (continuer) {
+			ApplicationAgenceBancaire.afficherMenu(monAg, 0);
+
+			choix = lect.next();
+			choix = choix.toLowerCase();
+			switch (choix) {
+				case "0":
+					System.out.println("Fin de Menu GÃ©nÃ©ral\n");
+					;
+					continuer = false;
+					break;
+				case "1":
+					monAg.afficher();
+					break;
+				case "2":
+					System.out.print("Num compte -> ");
+					String numero = lect.next();
+					Compte c = monAg.getCompte(numero);
+					if (c == null) {
 						System.out.println("Compte inexistant ...");
 					} else {
 						c.afficher();
 					}
-					ApplicationAgenceBancaire.tempo();
 					break;
-				case "p" :
-					System.out.print("Propriétaire -> ");
-					nom = lect.next();
-					ApplicationAgenceBancaire.comptesDUnPropretaire (monAg, nom);
-					ApplicationAgenceBancaire.tempo();
-					break;		
-				case "d" :
-					System.out.print("Num compte -> ");
-					numero = lect.next();
-					System.out.print("Montant à déposer -> ");
-					montant = lect.nextDouble();
-					ApplicationAgenceBancaire.deposerSurUnCompte(monAg, numero, montant);
-					ApplicationAgenceBancaire.tempo();
+				case "3":
+					ApplicationAgenceBancaire.menuOperations(monAg);
 					break;
-				case "r" :
-					System.out.print("Num compte -> ");
-					numero = lect.next();
-					System.out.print("Montant à retirer -> ");
-					montant = lect.nextDouble();
-					ApplicationAgenceBancaire.retirerSurUnCompte(monAg, numero, montant);
-					ApplicationAgenceBancaire.tempo();
+				case "4":
+					ApplicationAgenceBancaire.menuGestion(monAg);
 					break;
-				default :
+				default:
 					System.out.println("Erreur de saisie ...");
 					ApplicationAgenceBancaire.tempo();
 					break;
 			}
 		}
-		
 	}
-	
-	public static void comptesDUnPropretaire (AgenceBancaire ag, String nomProprietaire) {
-		Compte []  t; 
-		
+
+	/**
+	 * Temporisation : Affiche un message et attend la frappe de n'importe quel
+	 * caractï¿½re.
+	 */
+	public static void tempo() {
+		Scanner lect;
+
+		lect = new Scanner(System.in);
+
+		System.out.print("Tapper un car + return pour continuer ... ");
+		lect.next(); // Inutile ï¿½ stocker mais ...
+	}
+
+	public static void main(String argv[]) {
+		AgenceBancaire monAg;
+		monAg = AccesAgenceBancaire.getAgenceBancaire();
+
+		ApplicationAgenceBancaire.menuGeneral(monAg);
+
+	}
+
+	public static void comptesDUnPropretaire(AgenceBancaire ag, String nomProprietaire) {
+		Compte[] t;
+
 		t = ag.getComptesDe(nomProprietaire);
 		if (t.length == 0) {
-			System.out.println("pas de compte à ce nom ...");
+			System.out.println("pas de compte ï¿½ ce nom ...");
 		} else {
 			System.out.println("  " + t.length + " comptes pour " + nomProprietaire);
-			for (int i=0; i<t.length; i++)
+			for (int i = 0; i < t.length; i++)
 				t[i].afficher();
 		}
 	}
 
-	public static void deposerSurUnCompte (AgenceBancaire ag, String numeroCompte, double montant) {
+	public static void deposerSurUnCompte(AgenceBancaire ag, String numeroCompte, double montant) {
 		Compte c;
-		
+
 		c = ag.getCompte(numeroCompte);
-		if (c==null) {
+		if (c == null) {
 			System.out.println("Compte inexistant ...");
 		} else {
-			System.out.println("Solde avant dépôt: "+c.soldeCompte());
+			System.out.println("Solde avant dï¿½pï¿½t: " + c.soldeCompte());
 			try {
 				c.deposer(montant);
-				System.out.println("Montant déposé, solde : "+c.soldeCompte());
+				System.out.println("Montant dï¿½posï¿½, solde : " + c.soldeCompte());
 			} catch (CompteException e) {
-				System.out.println("Erreur de dépot, solde inchangé : " + c.soldeCompte());
+				System.out.println("Erreur de dï¿½pot, solde inchangï¿½ : " + c.soldeCompte());
 				System.out.println(e.getMessage());
 			}
 		}
 	}
-	
-	public static void retirerSurUnCompte (AgenceBancaire ag, String numeroCompte, double montant) {
+
+	public static void retirerSurUnCompte(AgenceBancaire ag, String numeroCompte, double montant) {
 		Compte c;
-		
+
 		c = ag.getCompte(numeroCompte);
-		if (c==null) {
+		if (c == null) {
 			System.out.println("Compte inexistant ...");
 		} else {
 			System.out.println("Solde avant retrait : " + c.soldeCompte());
 			try {
 				c.retirer(montant);
-				System.out.println("Montant retiré, solde : "+c.soldeCompte());
+				System.out.println("Montant retirï¿½, solde : " + c.soldeCompte());
 			} catch (CompteException e) {
-				System.out.println("Erreur de dépot, solde inchangé : " + c.soldeCompte());
+				System.out.println("Erreur de dï¿½pot, solde inchangï¿½ : " + c.soldeCompte());
 				System.out.println(e.getMessage());
 			}
 		}
