@@ -106,7 +106,7 @@ endif::[]
 
 {firstName}:: Romain
 
-{group} #::
+{group} 2A::
 
 [%interactive]
 - [ ] {Enseignants}
