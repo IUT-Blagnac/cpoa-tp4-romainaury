@@ -64,8 +64,6 @@ public class ApplicationAgenceBancaire {
 		lect = new Scanner(System.in);
 		lect.useLocale(Locale.US);
 
-		monAg = AccesAgenceBancaire.getAgenceBancaire();
-
 		continuer = true;
 		while (continuer) {
 			ApplicationAgenceBancaire.afficherMenu(monAg, 2);
@@ -121,8 +119,6 @@ public class ApplicationAgenceBancaire {
 
 		lect = new Scanner(System.in);
 		lect.useLocale(Locale.US);
-
-		monAg = AccesAgenceBancaire.getAgenceBancaire();
 
 		continuer = true;
 		while (continuer) {
