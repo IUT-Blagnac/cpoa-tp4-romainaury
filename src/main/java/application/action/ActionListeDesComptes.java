@@ -7,7 +7,6 @@ public class ActionListeDesComptes extends GenericActionAgenceBancaire {
 
     public ActionListeDesComptes(String message, String code) {
         super(message, code);
-        // TODO Auto-generated constructor stub
     }
 
     @Override

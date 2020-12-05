@@ -7,7 +7,6 @@ public class ActionDeposer extends GenericActionAgenceBancaire {
 
     public ActionDeposer(String message, String code) {
         super(message, code);
-        // TODO Auto-generated constructor stub
     }
 
     @Override
