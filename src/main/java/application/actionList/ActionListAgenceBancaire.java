@@ -1,6 +1,7 @@
 package application.actionList;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Scanner;
@@ -47,7 +48,8 @@ public class ActionListAgenceBancaire implements ActionList {
                 System.out.println("Fin de " + this.title + "\n");
                 continuer = false;
             } else
-                arAction.get(choix - 1).execute(ag);
+                this.getAction(choix - 1).execute(ag);
+                // this.tempo();
         }
     }
 
@@ -72,18 +74,16 @@ public class ActionListAgenceBancaire implements ActionList {
 
     private int readResponse() {
         String choix;
-        Scanner lect;
         int rep;
 
-        lect = new Scanner(System.in);
         lect.useLocale(Locale.US);
 
         while (true) {
+            System.out.print("Votre choix ?\n");
             choix = lect.next();
             choix = choix.toLowerCase();
             rep = Integer.parseInt(choix);
             if (rep >= 0 && rep <= this.size()) {
-                lect.close();
                 break;
             }
         }
@@ -92,10 +92,9 @@ public class ActionListAgenceBancaire implements ActionList {
 
     private void printMenu() {
         for (int i = 0; i < this.size(); i++) {
-            System.out.println("\t" + (i + 1) + " - " + arAction.get(i));
+            System.out.println("\t" + (i + 1) + " - " + arAction.get(i).actionMessage());
         }
         System.out.println("\n0 - Pour quitter ce menu");
-        System.out.print("Votre choix ?\n");
     }
 
     private void printTitle(AgenceBancaire ac) {
@@ -103,13 +102,32 @@ public class ActionListAgenceBancaire implements ActionList {
                 + "\n--\n");
     }
 
+    // inutilisé par choix
     private void tempo() {
-        Scanner lect;
+        // System.out.print("Tapper un car + return pour continuer ... ");
+        lect.next();
+    }
 
-        lect = new Scanner(System.in);
+    @Override
+    public boolean removeAction(Action ac) {
+        Iterator<Action> it = this.arAction.iterator();
+        Action action;
+        while (it.hasNext()) {
+            action = it.next();
+            if (ac.equals(action)) {
+                it.remove();
+                return true;
+            }
+        }
+        return false;
+    }
 
-        System.out.print("Tapper un car + return pour continuer ... ");
-        lect.next(); // Inutile � stocker mais ...
-        lect.close();
+    @Override
+    public Action getAction(int index) {
+        if (index >= size() || index < 0) {
+            throw new IndexOutOfBoundsException();
+        } else {
+            return this.arAction.get(index);
+        }
     }
 }

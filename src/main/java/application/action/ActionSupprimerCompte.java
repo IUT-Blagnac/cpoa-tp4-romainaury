@@ -2,6 +2,7 @@ package application.action;
 
 import application.GenericActionAgenceBancaire;
 import banque.AgenceBancaire;
+import banque.Compte;
 
 public class ActionSupprimerCompte extends GenericActionAgenceBancaire {
 
@@ -12,8 +13,20 @@ public class ActionSupprimerCompte extends GenericActionAgenceBancaire {
 
     @Override
     public void execute(AgenceBancaire ag) throws Exception {
-        // TODO Auto-generated method stub
+        Compte c;
 
+        String numero;
+
+        System.out.print("Num compte -> ");
+        numero = lect.next();
+
+
+        c = ag.getCompte(numero);
+        if (c == null) {
+            System.out.println("Compte inexistant ...");
+        } else {
+            ag.removeCompte(numero);
+        }
     }
 
 }

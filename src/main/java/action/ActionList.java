@@ -32,4 +32,20 @@ public interface ActionList extends Action {
 	 * @return true if action is added, else false
 	 */
 	public boolean addAction(Action ac);
+
+	/**
+	 * Remove an action from the list action if it does exists.
+	 *
+	 * @param ac the action to remove
+	 * @return true if action is removed, else false
+	 */
+	public boolean removeAction(Action ac);
+
+	/**
+	 * Get an action at an index, or throws IndexOutOfBoundsException
+	 * 
+	 * @param index the index to seek
+	 * @return the action
+	 */
+	public Action getAction(int index);
 }

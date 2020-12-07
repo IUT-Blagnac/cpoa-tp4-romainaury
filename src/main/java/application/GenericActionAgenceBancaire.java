@@ -6,7 +6,7 @@ public abstract class GenericActionAgenceBancaire implements Action {
     protected String message;
     protected String code;
 
-    public GenericActionAgenceBancaire(String message, String code) {
+    public GenericActionAgenceBancaire(String code, String message) {
         this.message = message;
         this.code = code;
     }

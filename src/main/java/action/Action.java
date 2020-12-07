@@ -1,8 +1,11 @@
 package action;
 
+import java.util.Scanner;
+
 import banque.AgenceBancaire;
 
 public interface Action {
+    public static final Scanner lect = new Scanner(System.in);
     /**
      * Message of the action (to show on screen).
      *

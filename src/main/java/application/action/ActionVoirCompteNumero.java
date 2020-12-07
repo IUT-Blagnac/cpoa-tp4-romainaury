@@ -16,9 +16,7 @@ public class ActionVoirCompteNumero extends GenericActionAgenceBancaire {
 
     @Override
     public void execute(AgenceBancaire ag) throws Exception {
-        Scanner lect;
     
-        lect = new Scanner(System.in);
 		lect.useLocale(Locale.US);
 
         System.out.print("Num compte -> ");
@@ -29,7 +27,6 @@ public class ActionVoirCompteNumero extends GenericActionAgenceBancaire {
         } else {
             c.afficher();
         }
-        lect.close();
     }
 
 }
