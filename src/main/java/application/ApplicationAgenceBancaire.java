@@ -1,5 +1,6 @@
 package application;
 
+import action.ActionList;
 import application.action.ActionAjouterCompte;
 import application.action.ActionDeposer;
 import application.action.ActionListeDesComptes;
@@ -19,7 +20,7 @@ public class ApplicationAgenceBancaire {
 	// static String[] menuGestion = { "Ajouter un compte", "Supprimer un compte" };
 
 	public static void main(String[] args) {
-		ActionListAgenceBancaire menuGeneral, menuOperations, menuGestion;
+		ActionList<AgenceBancaire> menuGeneral, menuOperations, menuGestion;
 		menuGeneral = new ActionListAgenceBancaire(null, "Menu général");
 		menuOperations = new ActionListAgenceBancaire("3", "Menu opérations sur comptes");
 		menuGestion = new ActionListAgenceBancaire("3", "Menu gestion des comptes");

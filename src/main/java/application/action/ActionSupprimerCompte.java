@@ -4,7 +4,7 @@ import application.GenericActionAgenceBancaire;
 import banque.AgenceBancaire;
 import banque.Compte;
 
-public class ActionSupprimerCompte extends GenericActionAgenceBancaire {
+public class ActionSupprimerCompte extends GenericActionAgenceBancaire<AgenceBancaire> {
 
     public ActionSupprimerCompte(String message, String code) {
         super(message, code);

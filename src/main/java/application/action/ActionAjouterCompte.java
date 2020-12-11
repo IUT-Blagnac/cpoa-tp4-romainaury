@@ -6,14 +6,14 @@ import banque.Compte;
 import banque.exception.ABCompteDejaExistantException;
 import banque.exception.ABCompteNullException;
 
-public class ActionAjouterCompte<E> extends GenericActionAgenceBancaire<E> {
+public class ActionAjouterCompte extends GenericActionAgenceBancaire<AgenceBancaire> {
 
     public ActionAjouterCompte(String message, String code) {
         super(message, code);
     }
 
     @Override
-    public void execute(E ag) throws Exception {
+    public void execute(AgenceBancaire ag) throws Exception {
         String numero;
         String proprietaire;
 

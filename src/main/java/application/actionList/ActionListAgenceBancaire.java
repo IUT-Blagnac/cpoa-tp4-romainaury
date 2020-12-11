@@ -10,7 +10,7 @@ import action.Action;
 import action.ActionList;
 import banque.AgenceBancaire;
 
-public class ActionListAgenceBancaire implements ActionList {
+public class ActionListAgenceBancaire implements ActionList<AgenceBancaire> {
 
     private String message;
     private String code;
@@ -77,14 +77,18 @@ public class ActionListAgenceBancaire implements ActionList {
         int rep;
 
         lect.useLocale(Locale.US);
+        System.out.print("Votre choix ?\n");
 
         while (true) {
-            System.out.print("Votre choix ?\n");
             choix = lect.next();
             choix = choix.toLowerCase();
-            rep = Integer.parseInt(choix);
-            if (rep >= 0 && rep <= this.size()) {
-                break;
+            try{
+                rep = Integer.parseInt(choix);
+                if (rep >= 0 && rep <= this.size()) {
+                    break;
+                }
+            } catch (Exception e ){
+                System.out.println("Vous devez saisir un entier entre 0 et " + this.size() + " : ");
             }
         }
         return rep;
@@ -108,22 +112,22 @@ public class ActionListAgenceBancaire implements ActionList {
         lect.next();
     }
 
-    @Override
-    public boolean removeAction(Action ac) {
-        Iterator<Action> it = this.arAction.iterator();
-        Action action;
-        while (it.hasNext()) {
-            action = it.next();
-            if (ac.equals(action)) {
-                it.remove();
-                return true;
-            }
-        }
-        return false;
-    }
+    // @Override
+    // public boolean removeAction(Action ac) {
+    //     Iterator<Action> it = this.arAction.iterator();
+    //     Action action;
+    //     while (it.hasNext()) {
+    //         action = it.next();
+    //         if (ac.equals(action)) {
+    //             it.remove();
+    //             return true;
+    //         }
+    //     }
+    //     return false;
+    // }
 
-    @Override
-    public Action getAction(int index) {
+    
+    public Action getAction(int index) throws IndexOutOfBoundsException {
         if (index >= size() || index < 0) {
             throw new IndexOutOfBoundsException();
         } else {

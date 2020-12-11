@@ -2,8 +2,6 @@ package action;
 
 import java.util.Scanner;
 
-import banque.AgenceBancaire;
-
 /**
  * An Action is an object that implements some action of a user's menu.<BR>
  * It is defined by a message, an optional code, an execute method to "do" the action.<BR>

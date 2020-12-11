@@ -5,7 +5,7 @@ import banque.AgenceBancaire;
 import banque.Compte;
 import banque.exception.CompteException;
 
-public class ActionRetirer extends GenericActionAgenceBancaire {
+public class ActionRetirer extends GenericActionAgenceBancaire<AgenceBancaire> {
 
     public ActionRetirer(String message, String code) {
         super(message, code);

@@ -1,8 +1,9 @@
 package application;
 
 import action.Action;
+import banque.AgenceBancaire;
 
-public abstract class GenericActionAgenceBancaire<E> implements Action<E> {
+public abstract class GenericActionAgenceBancaire <AgenceBancaire> implements Action<AgenceBancaire> {
     protected String message;
     protected String code;
 

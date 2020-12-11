@@ -5,7 +5,7 @@ import banque.AgenceBancaire;
 import banque.Compte;
 import banque.exception.CompteException;
 
-public class ActionDeposer extends GenericActionAgenceBancaire {
+public class ActionDeposer extends GenericActionAgenceBancaire<AgenceBancaire> {
 
     public ActionDeposer(String message, String code) {
         super(message, code);
@@ -38,5 +38,4 @@ public class ActionDeposer extends GenericActionAgenceBancaire {
             }
         }
     }
-
 }

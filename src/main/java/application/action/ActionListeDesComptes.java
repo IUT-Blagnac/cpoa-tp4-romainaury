@@ -3,7 +3,7 @@ package application.action;
 import application.GenericActionAgenceBancaire;
 import banque.AgenceBancaire;
 
-public class ActionListeDesComptes extends GenericActionAgenceBancaire {
+public class ActionListeDesComptes extends GenericActionAgenceBancaire<AgenceBancaire> {
 
     public ActionListeDesComptes(String message, String code) {
         super(message, code);

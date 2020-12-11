@@ -7,7 +7,7 @@ import application.GenericActionAgenceBancaire;
 import banque.AgenceBancaire;
 import banque.Compte;
 
-public class ActionVoirCompteNumero extends GenericActionAgenceBancaire {
+public class ActionVoirCompteNumero extends GenericActionAgenceBancaire<AgenceBancaire> {
 
     public ActionVoirCompteNumero(String message, String code) {
         super(message, code);
