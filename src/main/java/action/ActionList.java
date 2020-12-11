@@ -7,10 +7,14 @@ package action;
  * It is attended to :<BR>
  * - display the end-user menu numbered from 1 (list of messages of actions).<BR>
  * - display a quit option (0).<BR>
- * - wait for some user response.<BR>
+ * - wait for some user-response.<BR>
  * - launch the requested action.<BR>
+ *
+ * It is parameterized by the  type of object on which the actions of the list action may act on (execute on).<BR>
+ *
+ * @param <E> The type of object on which the list action may act on.
  */
-public interface ActionList extends Action {
+public interface ActionList<E> extends Action<E>{
 	/**
 	 * Title of the list of actions (menu).
 	 *
@@ -31,21 +35,5 @@ public interface ActionList extends Action {
 	 * @param ac the action to add
 	 * @return true if action is added, else false
 	 */
-	public boolean addAction(Action ac);
-
-	/**
-	 * Remove an action from the list action if it does exists.
-	 *
-	 * @param ac the action to remove
-	 * @return true if action is removed, else false
-	 */
-	public boolean removeAction(Action ac);
-
-	/**
-	 * Get an action at an index, or throws IndexOutOfBoundsException
-	 * 
-	 * @param index the index to seek
-	 * @return the action
-	 */
-	public Action getAction(int index);
+	public boolean addAction(Action<E> ac);
 }

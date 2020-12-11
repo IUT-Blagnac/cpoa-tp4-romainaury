@@ -2,7 +2,7 @@ package application;
 
 import action.Action;
 
-public abstract class GenericActionAgenceBancaire implements Action {
+public abstract class GenericActionAgenceBancaire<E> implements Action<E> {
     protected String message;
     protected String code;
 
